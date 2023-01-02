@@ -14,9 +14,12 @@
       }
     },
     "preview": {
+      "channel": "staging",
       "distribution": "internal"
     },
-    "production": {},
+    "production": {
+      "channel": "production"
+    },
     "development-simulator": {
       "developmentClient": true,
       "distribution": "internal",

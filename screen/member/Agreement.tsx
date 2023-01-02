@@ -1,21 +1,41 @@
-import React from "react";
-import { View, Text } from "react-native";
+import Checkbox from "expo-checkbox";
+import React, { useState } from "react";
+import { View, Text, FlatList, useWindowDimensions, TextInput } from "react-native";
+import { useRecoilState } from "recoil";
 import styled from "styled-components/native";
+import { agreementState } from "../../atom";
+import Agree from "../../components/agreements/Agree";
+import MemberCompleted from "../../components/agreements/MemeberCompleted";
+import UserInfo from "../../components/agreements/UserInfo";
 
-const Container = styled.View``;
-const NavText = styled.Text``;
-const NavInfoText = styled.Text``;
-const AgreeBtn = styled.Pressable``;
+const Container = styled.View`
+    margin: 16px 16px 32px 16px;
+    flex:1;
+`;
 
-export default function Agreement(){
+export default function Agreement(): JSX.Element {
+    const [agreeState, setAgreeState] = useRecoilState(agreementState);
+
     return (
         <Container>
-            <NavText>회원가입</NavText>
-            <NavInfoText>회원정보</NavInfoText>
-
-            <AgreeBtn>
-                <Text>네, 모두 동의합니다.</Text>
-            </AgreeBtn>
+            {/* <FlatList
+                data={[{id:'1'}]}
+                renderItem={(item) =>
+                    agreeState === 'agree'
+                        ? <Agree />
+                        : agreeState === 'userInfo'
+                        ? <UserInfo />
+                        : <MemberCompleted />
+                }
+                keyExtractor={(item) => item.id}
+            /> */}
+            {
+                agreeState === 'agree'
+                    ? <Agree />
+                    : agreeState === 'userInfo'
+                    ? <UserInfo />
+                    : <MemberCompleted />
+            }
         </Container>
     )
 }

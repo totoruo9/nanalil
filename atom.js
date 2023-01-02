@@ -40,4 +40,9 @@ export const loginState = atom({
 export const loginUserID = atom({
     key: 'loginUserID',
     default: ''
+});
+
+export const agreementState = atom({
+    key: 'agreementState',
+    default: 'agree'
 })

@@ -9,6 +9,7 @@ import { auth, fireStoreDB } from '../firebaseConfig';
 import Entypo from '@expo/vector-icons/Entypo';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import {setCustomText} from 'react-native-global-props';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -86,7 +87,18 @@ interface IUserInfo {
 
 export default function Home({navigation:{navigate, setOptions}}) {
     const [appIsReady, setAppIsReady] = useState(false);
-    
+    const [fontsLoaded] = Font.useFonts({
+        'pretendard-thin': require('../assets/fonts/static/Pretendard-Thin.otf'),
+        'pretendard-extralight': require('../assets/fonts/static/Pretendard-ExtraLight.otf'),
+        'pretendard-light': require('../assets/fonts/static/Pretendard-Light.otf'),
+        'pretendard-reqular': require('../assets/fonts/static/Pretendard-Regular.otf'),
+        'pretendard-medium': require('../assets/fonts/static/Pretendard-Medium.otf'),
+        'pretendard-semibold': require('../assets/fonts/static/Pretendard-SemiBold.otf'),
+        'pretendard-bold': require('../assets/fonts/static/Pretendard-Bold.otf'),
+        'pretendard-extrabold': require('../assets/fonts/static/Pretendard-ExtraBold.otf'),
+        'pretendard-black': require('../assets/fonts/static/Pretendard-Black.otf'),
+        'pretendard' : require('../assets/fonts/PretendardVariable.ttf')
+    });
     const {height, width} = useWindowDimensions();
     const setMonthCnt = useSetRecoilState(RCMonthCnt);
     const calender = useRecoilValue(RCMonth);
@@ -96,9 +108,6 @@ export default function Home({navigation:{navigate, setOptions}}) {
     const [userId, setUserId] = useState('');
     const [login, setLogin] = useRecoilState(loginState);
     const [userInfo, setUserInfo] = useState<IUserInfo | DocumentData | null>();
-
-    
-
     const yearArray = [calender.year-2, calender.year-1, calender.year, calender.year+1, calender.year+2];
     const monthArray = [...Array(12)]
 
@@ -199,6 +208,13 @@ export default function Home({navigation:{navigate, setOptions}}) {
                 } catch (e) {
                     console.warn(e);
                 } finally {
+                    const customTextProps = {
+                        style: {
+                          fontFamily: 'pretendard-reqular'
+                        }
+                      }
+                    
+                    setCustomText(customTextProps);
                     setAppIsReady(true);
                 }
             }   
@@ -219,12 +235,12 @@ export default function Home({navigation:{navigate, setOptions}}) {
     }, [auth.currentUser?.uid]);
 
     const onLayoutRootView = useCallback(async () => {
-        if (appIsReady) {
+        if (appIsReady && fontsLoaded) {
             await SplashScreen.hideAsync();
-        }
+        };
     }, [appIsReady]);
 
-    if(!appIsReady) {
+    if(!appIsReady && !fontsLoaded) {
         return <Text>loadding...</Text>
     }
     
