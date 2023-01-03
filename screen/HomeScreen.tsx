@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInAnonymously, signInWithEmailAndPassword, signOut } from '@firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInAnonymously, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 import { addDoc, collection, doc, DocumentData, getDoc, getDocFromCache, setDoc, updateDoc } from '@firebase/firestore';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, TouchableWithoutFeedback, useWindowDimensions, View } from 'react-native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components/native';
@@ -109,9 +109,23 @@ export default function Home({navigation:{navigate, setOptions}}) {
     const [login, setLogin] = useRecoilState(loginState);
     const [userInfo, setUserInfo] = useState<IUserInfo | DocumentData | null>();
     const yearArray = [calender.year-2, calender.year-1, calender.year, calender.year+1, calender.year+2];
-    const monthArray = [...Array(12)]
+    const monthArray = [...Array(12)];
+    const userID = useRef('');
 
-    console.log(auth);
+    console.log(userID);
+
+    const getUserDiary = async (userid) => {
+        const docRef = doc(fireStoreDB, 'diary', userid);
+        const docSnap = await getDoc(docRef);
+
+        if(docSnap.exists()) {
+            console.log('document data : ', docSnap.data());
+        } else {
+            console.log('no data');
+        }
+    }
+
+
     // createUserWithEmailAndPassword(auth, 'test@test.com', '@123test123@')
     // .then((userCredential) => {
     //     const user = userCredential.user;
@@ -232,6 +246,12 @@ export default function Home({navigation:{navigate, setOptions}}) {
         prepare();
 
         getDiaryInfo();
+
+        const auth = getAuth();
+
+        userID.current = auth.currentUser.uid;
+
+        getUserDiary(userID);
     }, [auth.currentUser?.uid]);
 
     const onLayoutRootView = useCallback(async () => {
@@ -277,20 +297,8 @@ export default function Home({navigation:{navigate, setOptions}}) {
                 <Text>로그인 페이지 이동</Text>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => authTest({email: 'test@test.com', password:'@123test123@'})}>
-                <Text>로그인 테스트</Text>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback onPress={testField}>
-                <Text>로그인 유저필드 생성</Text>
-            </TouchableWithoutFeedback>
-
             <TouchableWithoutFeedback onPress={() => setCSelectorState(prev => !prev)}>
                 <Text>캘린더 펼쳐보기</Text>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback onPress={() => addFireStore(selectDate)}>
-                <Text>testFireButton</Text>
             </TouchableWithoutFeedback>
             
             <TouchableWithoutFeedback onPress={nextWeek}>

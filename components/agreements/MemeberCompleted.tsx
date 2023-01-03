@@ -14,11 +14,13 @@ const ButtonContainer = styled.View`
     width: 100%;
 `;
 
-const onPress = () => {
-    console.log('press');
-}
 
-export default function MemberCompleted () {
+
+export default function MemberCompleted ({navigation}) {
+    const onPress = () => {
+        navigation.navigate('BottomNav', {screen: 'home'});
+    };
+
     return (
         <Container>
             <Text>

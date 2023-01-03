@@ -12,7 +12,7 @@ const Container = styled.View`
     flex:1;
 `;
 
-export default function Agreement(): JSX.Element {
+export default function Agreement({navigation}): JSX.Element {
     const [agreeState, setAgreeState] = useRecoilState(agreementState);
 
     return (
@@ -33,7 +33,7 @@ export default function Agreement(): JSX.Element {
                     ? <Agree />
                     : agreeState === 1
                     ? <UserInfo />
-                    : <MemberCompleted />
+                    : <MemberCompleted navigation={navigation} />
             }
         </Container>
     )

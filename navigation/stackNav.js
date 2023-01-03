@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
 export default function StackNav() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen options={{headerShown:false}} name="Login" component={Login} />
       <Stack.Screen options={{headerShown:false}} name="Agreement" component={Agreement} />
     </Stack.Navigator>
   );

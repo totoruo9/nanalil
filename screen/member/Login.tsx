@@ -11,13 +11,14 @@ interface ISubmit {
     swidth: number;
 }
 
-const Container = styled.View`
+const Container = styled.SafeAreaView`
     background: #fff;
     flex:1;
 `;
 
 const Logo = styled.Image`
     height: 100px;
+    margin-top: 56px;
 `;
 
 const LocationView = styled.View`
@@ -59,7 +60,7 @@ export default function Login({navigation:{navigate, setOptions}}) {
     const [password, setPassword] = useState();
     const [userID, setUserID] = useRecoilState(loginUserID);
     const [login, setLogin] = useRecoilState(loginState);
-    const passwordRef = useRef();
+    const passwordRef = useRef<TextInput>();
     const submitRef = useRef();
 
     useEffect(() => {
@@ -100,7 +101,7 @@ export default function Login({navigation:{navigate, setOptions}}) {
                 autoCapitalize='none'
                 value={email}
                 keyboardType='email-address'
-                onSubmitEditing={() => passwordRef.current.focus()}
+                onSubmitEditing={() => passwordRef?.current.focus()}
                 onChangeText={onChangeEmail}
                 placeholder='ex) test@test.com'
                 placeholderTextColor='#B9C4D6'
