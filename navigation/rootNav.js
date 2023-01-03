@@ -8,7 +8,7 @@ export default function RootNav() {
   return (
     <Stack.Navigator screenOptions={{headerShown:false}}>
       <Stack.Screen name="BottomNav" component={BottomNav} />
-      <Stack.Screen options={{presentation:'modal'}} name="StackNav" component={StackNav} />
+      <Stack.Screen name="StackNav" component={StackNav} />
     </Stack.Navigator>
   );
 }

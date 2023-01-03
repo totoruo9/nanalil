@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components/native';
+import SButton from './SButton';
 
 interface ITextInput {
     lable?: string;
@@ -11,11 +12,13 @@ interface ITextInput {
     errorText?: string;
     control: any;
     rules: {};
-    name: string
+    name: string;
+    confirm?: () => boolean;
 }
 
 interface ITextBox {
-    smargin: string;
+    smargin?: string;
+    confirm?: () => boolean;
 }
 
 const Container = styled.View<ITextBox>`
@@ -30,8 +33,8 @@ const Lable = styled.Text`
     margin-bottom: 8px;
 `;
 
-const TextBox = styled.TextInput`
-    margin: 0;
+const TextBox = styled.TextInput<ITextBox>`
+    margin: ${props => props.confirm ? '0 16px 0 0' : '0'};
     padding: 0;
     background: ${props => props.theme.colorPallet.gray200};
     font-size: ${props => props.theme.textSize.reguler_18.fontSize};
@@ -40,6 +43,7 @@ const TextBox = styled.TextInput`
     color: ${props => props.theme.colorPallet.gray800};
     padding: 16px;
     border-radius: 16px;
+    flex:1;
 `;
 
 const ErrorText = styled.Text`
@@ -49,9 +53,13 @@ const ErrorText = styled.Text`
     color: ${props => props.theme.colorPallet.red};
 `;
 
-export default function STextInput ({lable, placeholder, margin, typepassword, errors, errorText, control, rules, name}:ITextInput) {
+const ControllerContainer = styled.View`
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+`;
 
-    console.log(errors);
+export default function STextInput ({lable, placeholder, margin, typepassword, errors, errorText, control, rules, name, confirm}:ITextInput) {
     const Render = ({field: {onChange, onBlur, value}}) => (
         <TextBox
             placeholder={placeholder}
@@ -61,6 +69,8 @@ export default function STextInput ({lable, placeholder, margin, typepassword, e
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
+            confirm={confirm}
+            autoCapitalize='none'
         />
     );
 
@@ -70,12 +80,19 @@ export default function STextInput ({lable, placeholder, margin, typepassword, e
         >
             {lable && <Lable>{lable}</Lable>}
 
-            <Controller
-                control={control}
-                rules={rules}
-                render={Render}
-                name={name}
-            />
+            <ControllerContainer>
+                <Controller
+                    control={control}
+                    rules={rules}
+                    render={Render}
+                    name={name}
+                />
+                {
+                    confirm
+                        ? <SButton value={'전송'} type='send' onPress={confirm} />
+                        : null
+                }
+            </ControllerContainer>
             
             {(Object.keys(errors).indexOf(name) >= 0)
                 ? <ErrorText>{errorText}</ErrorText>

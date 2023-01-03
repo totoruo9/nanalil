@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInAnonymously, signInWithEmailAndPassword } from '@firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInAnonymously, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 import { addDoc, collection, doc, DocumentData, getDoc, getDocFromCache, setDoc, updateDoc } from '@firebase/firestore';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, ScrollView, TouchableWithoutFeedback, useWindowDimensions, View } from 'react-native';
@@ -91,7 +91,7 @@ export default function Home({navigation:{navigate, setOptions}}) {
         'pretendard-thin': require('../assets/fonts/static/Pretendard-Thin.otf'),
         'pretendard-extralight': require('../assets/fonts/static/Pretendard-ExtraLight.otf'),
         'pretendard-light': require('../assets/fonts/static/Pretendard-Light.otf'),
-        'pretendard-reqular': require('../assets/fonts/static/Pretendard-Regular.otf'),
+        'pretendard-regular': require('../assets/fonts/static/Pretendard-Regular.otf'),
         'pretendard-medium': require('../assets/fonts/static/Pretendard-Medium.otf'),
         'pretendard-semibold': require('../assets/fonts/static/Pretendard-SemiBold.otf'),
         'pretendard-bold': require('../assets/fonts/static/Pretendard-Bold.otf'),
@@ -210,7 +210,7 @@ export default function Home({navigation:{navigate, setOptions}}) {
                 } finally {
                     const customTextProps = {
                         style: {
-                          fontFamily: 'pretendard-reqular'
+                          fontFamily: 'pretendard-regular'
                         }
                       }
                     
@@ -266,6 +266,12 @@ export default function Home({navigation:{navigate, setOptions}}) {
                 <Text>{calender?.year}년</Text>
                 <Text>{calender?.month+1}월</Text>
             </View>
+
+            <TouchableWithoutFeedback onPress={() => {
+                signOut(auth).then(() => {}).catch((error) => {console.log(error)})
+            }}>
+                <Text>로그인 아웃</Text>
+            </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={onLoginPage}>
                 <Text>로그인 페이지 이동</Text>

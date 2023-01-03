@@ -9,7 +9,6 @@ import MemberCompleted from "../../components/agreements/MemeberCompleted";
 import UserInfo from "../../components/agreements/UserInfo";
 
 const Container = styled.View`
-    margin: 16px 16px 32px 16px;
     flex:1;
 `;
 
@@ -30,9 +29,9 @@ export default function Agreement(): JSX.Element {
                 keyExtractor={(item) => item.id}
             /> */}
             {
-                agreeState === 'agree'
+                agreeState === 0
                     ? <Agree />
-                    : agreeState === 'userInfo'
+                    : agreeState === 1
                     ? <UserInfo />
                     : <MemberCompleted />
             }

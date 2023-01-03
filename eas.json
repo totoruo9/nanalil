@@ -3,6 +3,10 @@
     "version": ">= 3.1.0"
   },
   "build": {
+    "base-local": {
+      "developmentClient": true,
+      "prebuildCommand": "prebuild --yarn"
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
@@ -11,6 +15,9 @@
       },
       "ios": {
         "buildConfiguration": "Debug"
+      },
+      "env": {
+        "APP_ENV": "development"
       }
     },
     "preview": {
@@ -18,7 +25,10 @@
       "distribution": "internal"
     },
     "production": {
-      "channel": "production"
+      "channel": "production",
+      "env": {
+        "APP_ENV": "production"
+      }
     },
     "development-simulator": {
       "developmentClient": true,

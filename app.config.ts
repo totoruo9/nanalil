@@ -4,8 +4,13 @@ import { ExpoConfig } from 'expo/config';
 // import { ExpoConfig } from '@expo/config-types';
 
 const config: ExpoConfig = {
-  name: 'my-app',
-  slug: 'my-app',
+  name: 'Nanalilfire',
+  slug: 'nanalilfire',
+  extra: {
+    eas: {
+      projectId: "5fc70a06-9f44-41cc-b906-f7558a5ebee5"
+    }
+  }
 };
 
 export default config;

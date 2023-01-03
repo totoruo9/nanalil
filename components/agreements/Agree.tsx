@@ -53,8 +53,9 @@ interface ISubmitBtn {
     
 }
 
-const Container = styled.View`
+const Container = styled.SafeAreaView`
     flex:1;
+    margin: 16px 16px 32px 16px;
 `;
 const NavText = styled.Text``;
 const NavInfoText = styled.Text``;
@@ -117,7 +118,7 @@ export default function Agree () {
     }
 
     const onPress = () => {
-        setAgreeState(prev => prev = 'userInfo')
+        setAgreeState(1)
     }
 
     return (
